@@ -18,7 +18,7 @@ module.exports = (client) => {
             const event = require(`../events/${dirs}/${files}`);
 
             // Check if a listener for this event is already registered
-            if (client.listenerCount(event.name) > 0) {
+            if (client.listenerCount(event.name) > 1) {
                 client.logger.warn(`[Events] Listener already exists for: ${event.name}`);
                 continue; // Skip to the next event if a listener exists
             };
