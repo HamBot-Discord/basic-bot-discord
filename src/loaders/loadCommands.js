@@ -26,6 +26,5 @@ module.exports = (client) => {
         };
     };
 
-    // Log the total number of loaded commands using the client's logger
-    console.log(`[Commandes] => ${count} loaded commands`);
+    return count;
 };

@@ -1,5 +1,6 @@
 // Import necessary modules from the discord.js library
 const { Client, Partials, Collection, GatewayIntentBits } = require('discord.js');
+const { loadCommands, loadEvents, loadInteractions } = require('./loaders');
 
 // Import the configuration file (contains important settings like the token, prefixes, etc.)
 const config = require('../config');
@@ -19,11 +20,6 @@ const client = new Client({
 	],
 });
 
-// Load modules to dynamically import commands, events, and interactions for the bot
-const loadCommands = require('./loaders/loadCommands');       // Loads the bot’s commands
-const loadEvents = require('./loaders/loadEvents');           // Loads event handlers (e.g., on message, on join)
-const loadInteractions = require('./loaders/loadInteractions'); // Loads interactions (e.g., buttons, menus, etc.)
-
 // Attach the configuration to the client so it’s accessible throughout the bot
 client.config = config;
 
@@ -33,9 +29,16 @@ client.interactions = new Collection();  // Stores the bot’s interactions
 
 // Use an Immediately Invoked Async Function Expression (IIFE) to load everything and start the bot
 (async () => {
-	loadCommands(client);      // Calls the function to load all commands into client.commands
-	loadEvents(client);        // Calls the function to load all events
-	loadInteractions(client);  // Calls the function to load all interactions (buttons, menus, etc.)
+	const [commandsCount, eventsCount, interactionsCount] = await Promise.all([
+		loadCommands(client),      // Calls the function to load all commands into client.commands
+		loadEvents(client),        // Calls the function to load all events
+		loadInteractions(client),  // Calls the function to load all interactions (buttons, menus, etc.)
+	]);
+
+	// Log the total number of loaded commands, events, and interactions
+	console.log(`[Commandes] => ${commandsCount} loaded commands`);
+	console.log(`[Events] => ${eventsCount} loaded events`);
+	console.log(`[Interactions] => ${interactionsCount} loaded interactions`);
 
 	// Log in to Discord using the token set in environment variables (process.env.TOKEN)
 	client.login(process.env.TOKEN);

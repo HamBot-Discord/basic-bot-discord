@@ -1,4 +1,3 @@
 module.exports = {
-	TOKEN: process.env.TOKEN,
-	
+	/* Your config here. */
 };

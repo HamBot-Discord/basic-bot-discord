@@ -25,6 +25,5 @@ module.exports = (client) => {
         };
     };
 
-    // Log the total number of loaded interactions
-    console.log(`[Interactions] => ${count} loaded interactions`);
+    return count;
 };

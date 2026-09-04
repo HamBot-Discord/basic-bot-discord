@@ -38,6 +38,5 @@ module.exports = (client) => {
         };
     };
 
-    // Log the total number of loaded events
-    console.log(`[Events] => ${count} loaded events`);
+    return count;
 };
